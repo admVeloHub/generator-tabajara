@@ -1,0 +1,347 @@
+/** styles.css v1.0.1 — paleta VeloHub */
+:root {
+  --white: #F3F7FC;
+  --gray: #272A30;
+  --blue-dark: #000058;
+  --blue-medium: #1634FF;
+  --blue-light: #1694FF;
+  --cor-fundo: #f0f4f8;
+  --cor-container: #F3F7FC;
+  --green: #15A237;
+  --yellow: #FCC200;
+  --danger: #c62828;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--cor-fundo);
+  color: var(--gray);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.app-header {
+  background: var(--cor-container);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.app-title {
+  margin: 0 0 4px;
+  font-family: 'Anton', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, #FCC200 0%, #ff4da6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.app-header h1:not(.app-title) {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+  color: var(--blue-dark);
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+
+.banner-warning {
+  background: #fff8e1;
+  border-left: 4px solid var(--yellow);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tab-btn {
+  border: 1px solid #d0d7e2;
+  background: var(--cor-container);
+  color: var(--gray);
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.tab-btn.active {
+  background: var(--blue-medium);
+  color: #fff;
+  border-color: var(--blue-medium);
+}
+
+.panel {
+  background: var(--cor-container);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+.panel h2 {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  color: var(--blue-dark);
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #c5ced9;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.row .field {
+  flex: 1;
+  min-width: 140px;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: var(--blue-medium);
+  color: #fff;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #e8edf3;
+  color: var(--gray);
+}
+
+.alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 0.875rem;
+}
+
+.alert-error {
+  background: #ffebee;
+  color: var(--danger);
+}
+
+.alert-success {
+  background: #e8f5e9;
+  color: var(--green);
+}
+
+.alert-info {
+  background: #e3f2fd;
+  color: var(--blue-dark);
+}
+
+.login-panel {
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.cards-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.ticket-card {
+  border: 1px solid #d0d7e2;
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.ticket-card:hover {
+  box-shadow: 0 4px 12px rgba(22, 52, 255, 0.12);
+}
+
+.ticket-card strong {
+  color: var(--blue-dark);
+}
+
+.ticket-card small {
+  display: block;
+  margin-top: 4px;
+  opacity: 0.75;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: #e8edf3;
+  margin-top: 6px;
+}
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+}
+
+.dialog {
+  background: var(--cor-container);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #d0d7e2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--blue-dark);
+}
+
+.dialog-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.dialog-footer {
+  padding: 12px 20px 16px;
+  border-top: 1px solid #d0d7e2;
+}
+
+.messages-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.msg-bubble {
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 85%;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.msg-client {
+  background: #e3f2fd;
+  align-self: flex-start;
+}
+
+.msg-meta {
+  font-size: 0.7rem;
+  opacity: 0.65;
+  margin-top: 4px;
+}
+
+.progress-log {
+  margin-top: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  background: #f5f7fa;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.progress-log div {
+  padding: 2px 0;
+}
+
+.user-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  opacity: 0.7;
+}
