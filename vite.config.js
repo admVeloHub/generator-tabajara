@@ -2,6 +2,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { handleGenerateQuestionsRequest } from './server/generateQuestions.mjs';
+import { handleVelodeskProxyHttp } from './server/velodeskProxy.mjs';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -13,6 +14,9 @@ export default defineConfig(({ mode }) => {
         name: 'gemini-api-dev',
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
+            if (req.url?.startsWith('/api/velodesk')) {
+              return handleVelodeskProxyHttp(req, res, env);
+            }
             if (req.url !== '/api/generate-questions' || req.method !== 'POST') {
               return next();
             }

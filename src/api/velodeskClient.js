@@ -1,9 +1,9 @@
-/** velodeskClient.js v1.0.1 */
+/** velodeskClient.js v1.0.2 */
 import axios from 'axios';
-import { VELODESK_API_BASE, TOKEN_KEY } from '../config.js';
+import { getVelodeskAxiosBase, TOKEN_KEY } from '../config.js';
 
 const api = axios.create({
-  baseURL: `${VELODESK_API_BASE}/api`,
+  baseURL: getVelodeskAxiosBase(),
   timeout: 30000,
 });
 
@@ -30,7 +30,7 @@ export function getToken() {
 /** 404 = cliente não cadastrado — fluxo normal; em seguida POST /clients */
 export async function getClientByCpf(cpf) {
   const token = localStorage.getItem(TOKEN_KEY);
-  const response = await axios.get(`${VELODESK_API_BASE}/api/clients`, {
+  const response = await axios.get(`${getVelodeskAxiosBase()}/clients`, {
     params: { cpf },
     timeout: 30000,
     headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -39,6 +39,7 @@ export async function getClientByCpf(cpf) {
   if (response.status === 404) return null;
   return response.data;
 }
+
 export async function createClient(body) {
   const { data } = await api.post('/clients', body);
   return data;

@@ -5,7 +5,7 @@ import EnviarTicketTab from './components/EnviarTicketTab.jsx';
 import GeradorTab from './components/GeradorTab.jsx';
 import AcompanharTab from './components/AcompanharTab.jsx';
 import { logout } from './api/velodeskClient.js';
-import { VELODESK_API_BASE } from './config.js';
+import { getVelodeskDisplayLabel } from './config.js';
 
 const TABS = [
   { id: 'enviar', label: 'Enviar ticket' },
@@ -43,7 +43,7 @@ export default function App() {
     <div className="app-shell">
       <header className="app-header">
         <h1 className="app-title">Personal Ticket Generator Tabajara</h1>
-        <p>API Desk: {VELODESK_API_BASE}</p>
+        <p>API Desk: {getVelodeskDisplayLabel()}</p>
         <div className="banner-warning">
           Ferramenta de simulação — chamados entram no ambiente real de testes (prefixo [SIMULACAO]).
         </div>
