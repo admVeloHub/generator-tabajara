@@ -1,8 +1,8 @@
-/** vite.config v1.0.0 — porta 8050, host LAN, middleware Gemini em dev */
+/** vite.config v1.0.1 — porta 8050, middleware MongoDB + Gemini em dev */
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { handleGenerateQuestionsRequest } from './server/generateQuestions.mjs';
-import { handleVelodeskProxyHttp } from './server/velodeskProxy.mjs';
+import { handleDeskApiHttp } from './server/deskApi.mjs';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -11,11 +11,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       {
-        name: 'gemini-api-dev',
+        name: 'gerador-api-dev',
         configureServer(server) {
           server.middlewares.use(async (req, res, next) => {
-            if (req.url?.startsWith('/api/velodesk')) {
-              return handleVelodeskProxyHttp(req, res, env);
+            if (req.url?.startsWith('/api/desk')) {
+              return handleDeskApiHttp(req, res, env);
             }
             if (req.url !== '/api/generate-questions' || req.method !== 'POST') {
               return next();

@@ -1,11 +1,9 @@
-/** App.jsx v1.0.1 */
+/** App.jsx v1.0.3 */
 import { useState } from 'react';
-import LoginPanel from './components/LoginPanel.jsx';
 import EnviarTicketTab from './components/EnviarTicketTab.jsx';
 import GeradorTab from './components/GeradorTab.jsx';
 import AcompanharTab from './components/AcompanharTab.jsx';
-import { logout } from './api/velodeskClient.js';
-import { getVelodeskDisplayLabel } from './config.js';
+import { getDeskDisplayLabel } from './config.js';
 
 const TABS = [
   { id: 'enviar', label: 'Enviar ticket' },
@@ -14,7 +12,6 @@ const TABS = [
 ];
 
 export default function App() {
-  const [user, setUser] = useState(null);
   const [tab, setTab] = useState('enviar');
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -22,39 +19,15 @@ export default function App() {
     setRefreshKey((k) => k + 1);
   }
 
-  function handleLogout() {
-    logout();
-    setUser(null);
-  }
-
-  if (!user) {
-    return (
-      <div className="app-shell">
-        <header className="app-header">
-          <h1 className="app-title">Personal Ticket Generator Tabajara</h1>
-          <p>Simulação de chamados clientes para Velodesk</p>
-        </header>
-        <LoginPanel onSuccess={setUser} />
-      </div>
-    );
-  }
-
   return (
     <div className="app-shell">
       <header className="app-header">
         <h1 className="app-title">Personal Ticket Generator Tabajara</h1>
-        <p>API Desk: {getVelodeskDisplayLabel()}</p>
+        <p>Destino: {getDeskDisplayLabel()}</p>
         <div className="banner-warning">
           Ferramenta de simulação — chamados entram no ambiente real de testes (prefixo [SIMULACAO]).
         </div>
       </header>
-
-      <div className="user-bar">
-        <span>{user.name || user.email}</span>
-        <button type="button" className="btn btn-secondary" onClick={handleLogout}>
-          Sair
-        </button>
-      </div>
 
       <nav className="tabs">
         {TABS.map((t) => (

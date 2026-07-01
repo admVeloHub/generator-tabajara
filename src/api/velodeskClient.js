@@ -1,39 +1,17 @@
-/** velodeskClient.js v1.0.2 */
+/** velodeskClient.js v1.1.0 — cliente HTTP → /api/desk (MongoDB direto) */
 import axios from 'axios';
-import { getVelodeskAxiosBase, TOKEN_KEY } from '../config.js';
+import { getDeskApiBase } from '../config.js';
 
 const api = axios.create({
-  baseURL: getVelodeskAxiosBase(),
+  baseURL: getDeskApiBase(),
   timeout: 30000,
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem(TOKEN_KEY);
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
-
-export async function login(email, password) {
-  const { data } = await api.post('/login', { email, password });
-  if (data.token) localStorage.setItem(TOKEN_KEY, data.token);
-  return data;
-}
-
-export function logout() {
-  localStorage.removeItem(TOKEN_KEY);
-}
-
-export function getToken() {
-  return localStorage.getItem(TOKEN_KEY);
-}
-
 /** 404 = cliente não cadastrado — fluxo normal; em seguida POST /clients */
 export async function getClientByCpf(cpf) {
-  const token = localStorage.getItem(TOKEN_KEY);
-  const response = await axios.get(`${getVelodeskAxiosBase()}/clients`, {
+  const response = await axios.get(`${getDeskApiBase()}/clients`, {
     params: { cpf },
     timeout: 30000,
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
     validateStatus: (status) => status === 200 || status === 404,
   });
   if (response.status === 404) return null;
