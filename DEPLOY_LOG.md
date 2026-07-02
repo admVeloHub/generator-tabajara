@@ -1,6 +1,6 @@
 # Deploy Log — Gerador de Tickets (generator-tabajara)
 
-<!-- VERSION: v1.0.2 | DATE: 2026-07-01 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.0.3 | DATE: 2026-07-01 | AUTHOR: VeloHub Development Team -->
 
 Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](https://github.com/admVeloHub/generator-tabajara).
 
@@ -42,5 +42,18 @@ Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](h
 | **Branch** | master |
 | **Arquivos** | DEPLOY_LOG.md, .env.example, package.json, package-lock.json, api/desk/[...path].js, server/deskApi.mjs, server/mongo/, src/config.js, src/api/velodeskClient.js, src/App.jsx, vite.config.js; removidos LoginPanel, velodeskProxy, api/velodesk |
 | **Descrição** | Remove login e proxy da API Desk. Tickets/clientes/mensagens gravados direto no MongoDB Atlas (`b2c_chamados` + `b2c_cadastros`) via `/api/desk` server-side. Vercel exige `MONGO_URI`; sem CORS nem backend intermediário. |
+
+---
+
+## GitHub — Fix rotas /api/desk na Vercel
+
+| Campo | Valor |
+|-------|-------|
+| **Data/Hora** | 2026-07-01 |
+| **Tipo** | GitHub Push |
+| **Versão** | v1.0.3 |
+| **Branch** | master |
+| **Arquivos** | DEPLOY_LOG.md, vercel.json, api/desk/clients.js, api/desk/tickets.js, api/desk/tickets/[id].js, api/desk/tickets/[id]/messages.js, api/generate-questions.js, server/vercelUtils.mjs; removido api/desk/[...path].js |
+| **Descrição** | Corrige 405 na Vercel: catch-all `[...path]` não era roteado; substituído por rotas explícitas. Rewrite SPA passa a excluir `/api/*`. Parser JSON reforçado em generate-questions. |
 
 ---
