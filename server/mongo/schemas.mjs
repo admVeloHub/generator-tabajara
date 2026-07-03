@@ -1,4 +1,4 @@
-/** schemas.mjs v1.0.0 — espelha ChamadoN1 + Cliente do Desk */
+/** schemas.mjs v1.0.1 — espelha ChamadoN1 + Cliente do Desk */
 import mongoose from 'mongoose';
 import { getCadastrosConnection } from './connection.mjs';
 
@@ -37,7 +37,7 @@ const RegistroSchema = new mongoose.Schema(
 
 const ChamadoN1Schema = new mongoose.Schema(
   {
-    chamadoProtocolo: { type: String, required: true, unique: true },
+    chamadoProtocolo: { type: String },
     chamadoTitulo: { type: String, default: '' },
     cliente: { type: [ClienteRefSchema], default: [] },
     tabulacao: { type: [TabulacaoSchema], default: [] },

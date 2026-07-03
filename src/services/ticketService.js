@@ -1,4 +1,4 @@
-/** ticketService.js v1.0.3 */
+/** ticketService.js v1.0.4 */
 import {
   createClient,
   createTicket,
@@ -7,7 +7,7 @@ import {
   sendClientMessage,
   getApiErrorMessage,
 } from '../api/velodeskClient.js';
-import { addChamado, updateChamadoStatus } from './sessionStore.js';
+import { addChamado, updateChamadoFromTicket } from './sessionStore.js';
 import { buildClientBody } from './randomGenerator.js';
 import { buildTicketPayload } from '../utils/payload.js';
 import { normalizeCpf } from '../utils/cpf.js';
@@ -55,9 +55,10 @@ export async function createSimulatedTicket({
   });
 
   const ticket = await createTicket(payload);
+  const ticketId = ticket._id || ticket.id;
   const entry = addChamado({
-    id: ticket._id || ticket.id,
-    protocolo: ticket.chamadoProtocolo,
+    id: ticketId,
+    protocolo: ticket.chamadoProtocolo || '',
     cpf: client.cpf,
     titulo: ticket.chamadoTitulo || ticket.title,
     theme: themeLabel,
@@ -69,7 +70,7 @@ export async function createSimulatedTicket({
 
 export async function refreshTicket(id) {
   const ticket = await getTicket(id);
-  updateChamadoStatus(id, ticket.status || 'novo');
+  updateChamadoFromTicket(id, ticket);
   return ticket;
 }
 

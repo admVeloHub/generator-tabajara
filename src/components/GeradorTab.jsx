@@ -1,4 +1,4 @@
-/** GeradorTab.jsx v1.0.3 */
+/** GeradorTab.jsx v1.0.4 */
 import { useState } from 'react';
 import { THEME_OPTIONS } from '../data/simulationScenarios.js';
 import { fetchGeneratedMessages } from '../services/geminiService.js';
@@ -6,6 +6,7 @@ import { createSimulatedTicket } from '../services/ticketService.js';
 import { randomCpfForTicket, delay } from '../services/randomGenerator.js';
 import { getApiErrorMessage } from '../api/velodeskClient.js';
 import { formatCpf } from '../utils/cpf.js';
+import { formatChamadoReferencia } from '../utils/chamadoLabel.js';
 
 export default function GeradorTab({ onCreated }) {
   const [count, setCount] = useState(5);
@@ -43,11 +44,16 @@ export default function GeradorTab({ onCreated }) {
             message: item.text,
             themeLabel: themeLabel === 'Todos' ? (item.themeKey || 'Gerador') : themeLabel,
           });
+          const ticketId = ticket._id || ticket.id;
+          const referencia = formatChamadoReferencia({
+            id: ticketId,
+            chamadoProtocolo: ticket.chamadoProtocolo,
+          });
           ok += 1;
-          appendLog(`✓ ${ticket.chamadoProtocolo} — CPF ${formatCpf(cpf)}`);
+          appendLog(`✓ ${referencia} — CPF ${formatCpf(cpf)}`);
           onCreated?.({
-            id: ticket._id || ticket.id,
-            protocolo: ticket.chamadoProtocolo,
+            id: ticketId,
+            protocolo: ticket.chamadoProtocolo || '',
           });
         } catch (err) {
           fail += 1;

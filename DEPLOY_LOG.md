@@ -1,6 +1,6 @@
 # Deploy Log — Gerador de Tickets (generator-tabajara)
 
-<!-- VERSION: v1.0.3 | DATE: 2026-07-01 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.0.4 | DATE: 2026-07-03 | AUTHOR: VeloHub Development Team -->
 
 Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](https://github.com/admVeloHub/generator-tabajara).
 
@@ -55,5 +55,18 @@ Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](h
 | **Branch** | master |
 | **Arquivos** | DEPLOY_LOG.md, vercel.json, api/desk/clients.js, api/desk/tickets.js, api/desk/tickets/[id].js, api/desk/tickets/[id]/messages.js, api/generate-questions.js, server/vercelUtils.mjs; removido api/desk/[...path].js |
 | **Descrição** | Corrige 405 na Vercel: catch-all `[...path]` não era roteado; substituído por rotas explícitas. Rewrite SPA passa a excluir `/api/*`. Parser JSON reforçado em generate-questions. |
+
+---
+
+## GitHub — Protocolo atribuído pelo CRM
+
+| Campo | Valor |
+|-------|-------|
+| **Data/Hora** | 2026-07-03 |
+| **Tipo** | GitHub Push |
+| **Versão** | v1.0.4 |
+| **Branch** | master |
+| **Arquivos** | DEPLOY_LOG.md, server/mongo/chamadoService.mjs, server/mongo/schemas.mjs, src/utils/chamadoLabel.js, src/services/ticketService.js, src/services/sessionStore.js, src/components/GeradorTab.jsx, src/components/EnviarTicketTab.jsx, src/components/AcompanharTab.jsx, src/components/TicketDialog.jsx |
+| **Descrição** | Remove geração automática de `chamadoProtocolo` (VD-…). Chamados são gravados sem protocolo; UI exibe ID curto até o CRM atribuir. Sessão atualiza protocolo ao refresh quando disponível. |
 
 ---

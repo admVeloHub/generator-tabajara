@@ -1,7 +1,8 @@
-/** AcompanharTab.jsx v1.0.0 */
+/** AcompanharTab.jsx v1.0.1 */
 import { useCallback, useEffect, useState } from 'react';
 import { listChamados } from '../services/sessionStore.js';
 import { formatCpf } from '../utils/cpf.js';
+import { formatChamadoReferencia } from '../utils/chamadoLabel.js';
 import TicketDialog from './TicketDialog.jsx';
 
 export default function AcompanharTab() {
@@ -44,7 +45,7 @@ export default function AcompanharTab() {
                 role="button"
                 tabIndex={0}
               >
-                <strong>{c.protocolo}</strong>
+                <strong>{formatChamadoReferencia(c)}</strong>
                 <small>{c.titulo}</small>
                 <small>CPF: {formatCpf(c.cpf)}</small>
                 <span className="status-badge">{c.status || 'novo'}</span>

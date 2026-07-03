@@ -1,4 +1,4 @@
-/** sessionStore.js v1.0.0 */
+/** sessionStore.js v1.0.1 */
 import { SESSION_KEY } from '../config.js';
 
 function readAll() {
@@ -43,6 +43,16 @@ export function updateChamadoStatus(id, status) {
     list[idx].status = status;
     writeAll(list);
   }
+}
+
+export function updateChamadoFromTicket(id, ticket) {
+  const list = readAll();
+  const idx = list.findIndex((x) => x.id === id);
+  if (idx < 0) return;
+
+  if (ticket?.status) list[idx].status = ticket.status;
+  if (ticket?.chamadoProtocolo) list[idx].protocolo = ticket.chamadoProtocolo;
+  writeAll(list);
 }
 
 export function clearSession() {

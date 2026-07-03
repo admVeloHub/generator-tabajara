@@ -1,12 +1,6 @@
-/** chamadoService.mjs v1.0.0 — grava chamados_n1 igual ao Desk */
+/** chamadoService.mjs v1.0.1 — grava chamados_n1 igual ao Desk (protocolo atribuído pelo CRM) */
 import { getChamadoModel } from './schemas.mjs';
 import { loadDadosForRef, resolveClienteRefFromBody } from './clienteService.mjs';
-
-export function generateProtocolo() {
-  const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  const suffix = Math.floor(Math.random() * 9000 + 1000);
-  return `VD-${stamp}-${suffix}`;
-}
 
 function resolveChamadoTitulo(body, fallback = '') {
   return String(body.chamadoTitulo ?? body.title ?? fallback).trim();
@@ -51,13 +45,18 @@ export async function createChamadoFromBody(body, env, status = 'novo') {
     status,
   };
 
-  return {
-    chamadoProtocolo: protocoloInformed || generateProtocolo(),
+  const doc = {
     chamadoTitulo: titulo,
     cliente,
     tabulacao: [tab],
     registro: [registro],
   };
+
+  if (protocoloInformed) {
+    doc.chamadoProtocolo = protocoloInformed;
+  }
+
+  return doc;
 }
 
 export async function chamadoToTicket(chamado, env) {
@@ -83,7 +82,7 @@ export async function chamadoToTicket(chamado, env) {
 
   const titulo = chamado.chamadoTitulo?.trim()
     || tab?.motivo?.trim()
-    || chamado.chamadoProtocolo;
+    || 'Chamado sem título';
 
   const clientCpf = ref?.clienteCpf || cadastro?.clienteCpf;
   const clientName = cadastro?.clienteNome;
@@ -91,7 +90,7 @@ export async function chamadoToTicket(chamado, env) {
   return {
     _id: chamado._id.toString(),
     id: chamado._id.toString(),
-    chamadoProtocolo: chamado.chamadoProtocolo,
+    chamadoProtocolo: chamado.chamadoProtocolo || '',
     chamadoTitulo: titulo,
     title: titulo,
     status,

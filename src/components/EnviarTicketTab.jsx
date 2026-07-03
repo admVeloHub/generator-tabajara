@@ -1,9 +1,10 @@
-/** EnviarTicketTab.jsx v1.0.2 */
+/** EnviarTicketTab.jsx v1.0.3 */
 import { useState } from 'react';
 import { createSimulatedTicket } from '../services/ticketService.js';
 import { getApiErrorMessage } from '../api/velodeskClient.js';
 import { parseAttachmentUrls } from '../utils/payload.js';
 import { formatCpf, normalizeCpf } from '../utils/cpf.js';
+import { formatChamadoReferencia } from '../utils/chamadoLabel.js';
 
 export default function EnviarTicketTab({ onCreated }) {
   const [cpf, setCpf] = useState('');
@@ -33,9 +34,15 @@ export default function EnviarTicketTab({ onCreated }) {
         attachments: parseAttachmentUrls(attachmentsRaw),
         themeLabel: 'Manual',
       });
+      const referencia = formatChamadoReferencia({
+        id: ticket._id || ticket.id,
+        chamadoProtocolo: ticket.chamadoProtocolo,
+      });
       setFeedback({
         type: 'success',
-        text: `Chamado criado: ${ticket.chamadoProtocolo}`,
+        text: ticket.chamadoProtocolo
+          ? `Chamado criado: ${referencia}`
+          : `Chamado criado (${referencia}). Protocolo será atribuído pelo CRM.`,
       });
       setMessage('');
       onCreated?.(entry);

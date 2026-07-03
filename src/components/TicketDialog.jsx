@@ -1,8 +1,9 @@
-/** TicketDialog.jsx v1.0.0 */
+/** TicketDialog.jsx v1.0.1 */
 import { useEffect, useState } from 'react';
 import { replyAsClient, refreshTicket } from '../services/ticketService.js';
 import { getApiErrorMessage } from '../api/velodeskClient.js';
 import { formatCpf } from '../utils/cpf.js';
+import { formatChamadoReferencia } from '../utils/chamadoLabel.js';
 
 function formatTime(value) {
   if (!value) return '';
@@ -66,12 +67,17 @@ export default function TicketDialog({ chamado, onClose, onUpdate }) {
 
   const messages = ticket?.messages || [];
 
+  const referencia = formatChamadoReferencia({
+    id: chamado.id,
+    protocolo: ticket?.chamadoProtocolo || chamado.protocolo,
+  });
+
   return (
     <div className="dialog-overlay" onClick={onClose} role="presentation">
       <div className="dialog" onClick={(e) => e.stopPropagation()} role="dialog">
         <div className="dialog-header">
           <div>
-            <h3>{chamado.protocolo}</h3>
+            <h3>{referencia}</h3>
             <small>{chamado.titulo}</small>
             {chamado.cpf && (
               <small style={{ display: 'block' }}>CPF: {formatCpf(chamado.cpf)}</small>
