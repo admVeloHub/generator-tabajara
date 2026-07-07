@@ -1,6 +1,12 @@
-/** chamadoService.mjs v1.0.1 — grava chamados_n1 igual ao Desk (protocolo atribuído pelo CRM) */
+/** chamadoService.mjs v1.0.2 — grava chamados_n1 igual ao Desk (protocolo atribuído pelo CRM) */
+import mongoose from 'mongoose';
 import { getChamadoModel } from './schemas.mjs';
 import { loadDadosForRef, resolveClienteRefFromBody } from './clienteService.mjs';
+import {
+  buildPendingProtocolo,
+  isPendingProtocolo,
+  resolvePublicProtocolo,
+} from './protocoloUtils.mjs';
 
 function resolveChamadoTitulo(body, fallback = '') {
   return String(body.chamadoTitulo ?? body.title ?? fallback).trim();
@@ -90,7 +96,7 @@ export async function chamadoToTicket(chamado, env) {
   return {
     _id: chamado._id.toString(),
     id: chamado._id.toString(),
-    chamadoProtocolo: chamado.chamadoProtocolo || '',
+    chamadoProtocolo: resolvePublicProtocolo(chamado.chamadoProtocolo),
     chamadoTitulo: titulo,
     title: titulo,
     status,
@@ -111,14 +117,22 @@ export async function createTicket(body, env) {
   }
 
   const protocolo = String(body.chamadoProtocolo ?? '').trim();
-  if (protocolo) {
+  if (protocolo && !isPendingProtocolo(protocolo)) {
     const exists = await ChamadoN1.findOne({ chamadoProtocolo: protocolo });
     if (exists) {
       throw Object.assign(new Error('Protocolo já cadastrado'), { status: 409 });
     }
   }
 
-  const doc = await ChamadoN1.create(await createChamadoFromBody(body, env, status));
+  const payload = await createChamadoFromBody(body, env, status);
+  if (!payload.chamadoProtocolo) {
+    const ticketId = new mongoose.Types.ObjectId();
+    payload._id = ticketId;
+    // Índice unique chamadoProtocolo_1 no Atlas não aceita múltiplos null/ausentes.
+    payload.chamadoProtocolo = buildPendingProtocolo(ticketId);
+  }
+
+  const doc = await ChamadoN1.create(payload);
   return chamadoToTicket(doc, env);
 }
 

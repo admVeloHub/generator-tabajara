@@ -1,5 +1,6 @@
-/** sessionStore.js v1.0.1 */
+/** sessionStore.js v1.0.2 */
 import { SESSION_KEY } from '../config.js';
+import { isPendingProtocolo } from '../utils/chamadoLabel.js';
 
 function readAll() {
   try {
@@ -51,7 +52,9 @@ export function updateChamadoFromTicket(id, ticket) {
   if (idx < 0) return;
 
   if (ticket?.status) list[idx].status = ticket.status;
-  if (ticket?.chamadoProtocolo) list[idx].protocolo = ticket.chamadoProtocolo;
+  if (ticket?.chamadoProtocolo && !isPendingProtocolo(ticket.chamadoProtocolo)) {
+    list[idx].protocolo = ticket.chamadoProtocolo;
+  }
   writeAll(list);
 }
 

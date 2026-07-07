@@ -1,6 +1,6 @@
 # Deploy Log — Gerador de Tickets (generator-tabajara)
 
-<!-- VERSION: v1.0.4 | DATE: 2026-07-03 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.0.5 | DATE: 2026-07-07 | AUTHOR: VeloHub Development Team -->
 
 Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](https://github.com/admVeloHub/generator-tabajara).
 
@@ -68,5 +68,18 @@ Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](h
 | **Branch** | master |
 | **Arquivos** | DEPLOY_LOG.md, server/mongo/chamadoService.mjs, server/mongo/schemas.mjs, src/utils/chamadoLabel.js, src/services/ticketService.js, src/services/sessionStore.js, src/components/GeradorTab.jsx, src/components/EnviarTicketTab.jsx, src/components/AcompanharTab.jsx, src/components/TicketDialog.jsx |
 | **Descrição** | Remove geração automática de `chamadoProtocolo` (VD-…). Chamados são gravados sem protocolo; UI exibe ID curto até o CRM atribuir. Sessão atualiza protocolo ao refresh quando disponível. |
+
+---
+
+## GitHub — Fix índice unique chamadoProtocolo (null)
+
+| Campo | Valor |
+|-------|-------|
+| **Data/Hora** | 2026-07-07 |
+| **Tipo** | GitHub Push |
+| **Versão** | v1.0.5 |
+| **Branch** | master |
+| **Arquivos** | DEPLOY_LOG.md, server/mongo/chamadoService.mjs, server/mongo/protocoloUtils.mjs, src/utils/chamadoLabel.js, src/services/sessionStore.js |
+| **Descrição** | Corrige E11000 duplicate key `{ chamadoProtocolo: null }`: índice unique do Atlas exige valor único por documento. Usa marcador interno `__SIMULACAO_PENDENTE__:<ObjectId>` até o CRM atribuir protocolo oficial; UI continua sem exibir protocolo gerado. |
 
 ---
