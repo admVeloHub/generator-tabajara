@@ -1,12 +1,7 @@
-/** chamadoService.mjs v1.0.2 — grava chamados_n1 igual ao Desk (protocolo atribuído pelo CRM) */
-import mongoose from 'mongoose';
+/** chamadoService.mjs v1.0.3 — grava chamados_n1 sem chamadoProtocolo (Desk atribui) */
 import { getChamadoModel } from './schemas.mjs';
 import { loadDadosForRef, resolveClienteRefFromBody } from './clienteService.mjs';
-import {
-  buildPendingProtocolo,
-  isPendingProtocolo,
-  resolvePublicProtocolo,
-} from './protocoloUtils.mjs';
+import { isPendingProtocolo, resolvePublicProtocolo } from './protocoloUtils.mjs';
 
 function resolveChamadoTitulo(body, fallback = '') {
   return String(body.chamadoTitulo ?? body.title ?? fallback).trim();
@@ -125,13 +120,6 @@ export async function createTicket(body, env) {
   }
 
   const payload = await createChamadoFromBody(body, env, status);
-  if (!payload.chamadoProtocolo) {
-    const ticketId = new mongoose.Types.ObjectId();
-    payload._id = ticketId;
-    // Índice unique chamadoProtocolo_1 no Atlas não aceita múltiplos null/ausentes.
-    payload.chamadoProtocolo = buildPendingProtocolo(ticketId);
-  }
-
   const doc = await ChamadoN1.create(payload);
   return chamadoToTicket(doc, env);
 }

@@ -1,6 +1,6 @@
 # Deploy Log — Gerador de Tickets (generator-tabajara)
 
-<!-- VERSION: v1.0.5 | DATE: 2026-07-07 | AUTHOR: VeloHub Development Team -->
+<!-- VERSION: v1.0.6 | DATE: 2026-07-16 | AUTHOR: VeloHub Development Team -->
 
 Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](https://github.com/admVeloHub/generator-tabajara).
 
@@ -81,5 +81,18 @@ Histórico de deploys e pushes do repositório [admVeloHub/generator-tabajara](h
 | **Branch** | master |
 | **Arquivos** | DEPLOY_LOG.md, server/mongo/chamadoService.mjs, server/mongo/protocoloUtils.mjs, src/utils/chamadoLabel.js, src/services/sessionStore.js |
 | **Descrição** | Corrige E11000 duplicate key `{ chamadoProtocolo: null }`: índice unique do Atlas exige valor único por documento. Usa marcador interno `__SIMULACAO_PENDENTE__:<ObjectId>` até o CRM atribuir protocolo oficial; UI continua sem exibir protocolo gerado. |
+
+---
+
+## GitHub — Protocolo 100% pelo Desk (remove marcador pendente)
+
+| Campo | Valor |
+|-------|-------|
+| **Data/Hora** | 2026-07-16 |
+| **Tipo** | GitHub Push |
+| **Versão** | v1.0.6 |
+| **Branch** | master |
+| **Arquivos** | DEPLOY_LOG.md, server/mongo/chamadoService.mjs |
+| **Descrição** | Remove preenchimento de `chamadoProtocolo` na gravação MongoDB. Chamados de simulação são inseridos sem protocolo; o backend Desk (change stream) atribui o número oficial imediatamente. Índice sparse unique no Atlas passa a permitir múltiplos chamados sem protocolo até atribuição. |
 
 ---
